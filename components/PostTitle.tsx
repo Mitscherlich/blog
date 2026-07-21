@@ -1,4 +1,4 @@
-import { CalendarIcon, EyeIcon, TagIcon } from '@heroicons/react/outline'
+import { CalendarIcon, EyeIcon, TagIcon } from '@heroicons/react/24/outline'
 import { Post } from '../api/post'
 
 const PostTitle = ({ post }: { post: Post }) => {
@@ -19,7 +19,7 @@ const PostTitle = ({ post }: { post: Post }) => {
       <div className="text-sm text-neutral flex flex-nowrap items-center space-x-2 overflow-hidden">
         <div className="flex items-center space-x-1">
           <CalendarIcon className="w-5 h-5" />
-          <span>{new Date(post.date).toLocaleDateString()}</span>
+          <span>{new Date(post.date).toLocaleDateString('zh-CN')}</span>
         </div>
         <span>·</span>
 
@@ -29,8 +29,9 @@ const PostTitle = ({ post }: { post: Post }) => {
         </div>
         <span>·</span>
 
-        {post.author.map((author) => (
+        {(post.author ?? []).map((author) => (
           <div key={author.id} className="flex items-center space-x-1 flex-shrink-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={author.profilePhoto} alt="profile photo" className="w-6 h-6 rounded-full" />
             <span className="hidden md:block">{author.fullName}</span>
           </div>

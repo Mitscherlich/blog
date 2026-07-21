@@ -1,27 +1,29 @@
 import Head from 'next/head'
-import { NotionAPI } from 'notion-client'
+import { GetStaticPaths, GetStaticProps } from 'next'
 import { ExtendedRecordMap } from 'notion-types'
-import { FC } from 'react'
-import { Code, Equation, NotionRenderer } from 'react-notion-x'
-import { fetchPostList, getPostView, Post } from 'api/post'
+import { NotionRenderer } from 'react-notion-x'
+import { Code } from 'react-notion-x/third-party/code'
+import { Equation } from 'react-notion-x/third-party/equation'
+import { fetchPostList, fetchPostPage, getPostView, Post } from 'api/post'
 import Footer from 'components/Footer'
 import Navbar from 'components/Navbar'
 import Pagination, { PaginationType } from 'components/Pagination'
 import PostTitle from 'components/PostTitle'
 import { formatSlug } from 'utils/slugFormat'
 
-const notion = new NotionAPI()
+export const getStaticProps: GetStaticProps = async (context) => {
+  const slug = context.params?.slug as string
 
-export const getStaticProps = async ({ params: { slug } }: { params: { slug: string } }) => {
-  // Get all posts again
   const posts = await fetchPostList()
   const publishedPosts = posts.filter((post) => post.published)
 
-  // Find the current blog post by slug
   const postIndex = publishedPosts.findIndex((t) => t.slug === slug)
   const post = publishedPosts[postIndex]
 
-  // Get page views from current post
+  if (!post) {
+    return { notFound: true, revalidate: 60 }
+  }
+
   post.views = await getPostView(formatSlug(post.date, post.slug))
 
   const pagination: PaginationType = {
@@ -29,7 +31,7 @@ export const getStaticProps = async ({ params: { slug } }: { params: { slug: str
     next: postIndex + 1 < publishedPosts.length ? publishedPosts[postIndex + 1] : null,
   }
 
-  const recordMap = await notion.getPage(post.id)
+  const recordMap = await fetchPostPage(post.id)
 
   return {
     props: {
@@ -41,7 +43,7 @@ export const getStaticProps = async ({ params: { slug } }: { params: { slug: str
   }
 }
 
-const BlogPost: FC<{ recordMap: ExtendedRecordMap; post: Post; pagination: PaginationType }> = ({
+const BlogPost = ({
   recordMap,
   post,
   pagination,
@@ -52,28 +54,31 @@ const BlogPost: FC<{ recordMap: ExtendedRecordMap; post: Post; pagination: Pagin
 }) => {
   if (!post) return null
 
-  // const darkMode = useDarkMode(false, { classNameDark: 'dark-mode' })
-
   return (
     <>
       <Head>
-        <title>{post.name} - Mitscherlich&apos;s Blog</title>
+        <title>{`${post.name} - Mitscherlich's Blog`}</title>
       </Head>
 
       <div className="min-h-screen flex flex-col">
-        <div className="container mx-auto max-w-3xl">
+        <div className="container mx-auto max-w-3xl min-[1920px]:max-w-[900px]">
           <Navbar />
         </div>
 
-        <div className="container mx-auto mb-6 md:my-6 px-4 sm:px-6 justify-center flex-grow max-w-3xl bg-base-100 sm:bg-base-200 rounded">
+        <div className="container mx-auto mb-6 md:my-6 px-4 sm:px-6 justify-center flex-grow max-w-3xl min-[1920px]:max-w-[900px] bg-base-100 sm:bg-base-200 rounded">
           <div className="my-8">
             <PostTitle post={post} />
 
-            <div className="overflow-hidden md:p-2 sm:bg-base-100 rounded">
+            <div className="overflow-hidden md:p-2 sm:bg-base-100 rounded [--notion-max-width:100%]">
               <NotionRenderer
                 recordMap={recordMap}
-                components={{ code: Code, equation: Equation }}
-                // darkMode={darkMode.value}
+                fullPage={false}
+                darkMode={false}
+                disableHeader
+                components={{
+                  Code,
+                  Equation,
+                }}
               />
             </div>
 
@@ -87,12 +92,13 @@ const BlogPost: FC<{ recordMap: ExtendedRecordMap; post: Post; pagination: Pagin
   )
 }
 
-export const getStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await fetchPostList()
   const publishedPosts = posts.filter((post) => post.published)
   return {
     paths: publishedPosts.map(({ date, slug }) => formatSlug(date, slug)),
-    fallback: true,
+    // Avoid client fallback tree differing from SSG HTML during hydration
+    fallback: 'blocking',
   }
 }
 

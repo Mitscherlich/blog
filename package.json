@@ -1,35 +1,40 @@
 {
   "name": "@mitscherlich/blog",
   "private": true,
+  "packageManager": "pnpm@10.33.0",
   "scripts": {
-    "dev": "next",
-    "build": "next build"
+    "dev": "next dev",
+    "build": "next build --webpack",
+    "start": "next start"
   },
   "dependencies": {
-    "@badrap/bar-of-progress": "^0.1.2",
-    "@heroicons/react": "^1.0.4",
-    "axios": "^0.21.1",
-    "daisyui": "^1.14.0",
-    "feed": "^4.2.2",
-    "next": "^11.1.2",
-    "next-pwa": "^5.3.1",
-    "notion-client": "^4.8.6",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-notion": "^0.10.0",
-    "react-notion-x": "^4.8.6",
-    "react-transition-group": "^4.4.2",
-    "use-dark-mode": "^2.3.1"
+    "@badrap/bar-of-progress": "^0.3.0",
+    "@ducanh2912/next-pwa": "^10.2.9",
+    "@heroicons/react": "^2.2.0",
+    "axios": "^1.18.1",
+    "daisyui": "^5.7.0",
+    "feed": "^6.0.0",
+    "katex": "^0.18.1",
+    "next": "^16.2.11",
+    "notion-client": "^7.10.0",
+    "notion-types": "^7.10.0",
+    "notion-utils": "^7.10.0",
+    "prismjs": "^1.30.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-notion-x": "^7.10.0",
+    "undici": "^8.8.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.0",
-    "@types/node": "^16.7.9",
-    "@types/react": "^17.0.19",
-    "@types/react-dom": "^17.0.9",
-    "@types/react-transition-group": "^4.4.2",
-    "autoprefixer": "^10.3.3",
-    "postcss": "^8.3.6",
-    "tailwindcss": "^2.2.9",
-    "typescript": "^4.4.2"
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^26.1.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "postcss": "^8.5.21",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": "22.x"
   }
 }

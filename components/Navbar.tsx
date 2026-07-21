@@ -1,15 +1,18 @@
 import Link from 'next/link'
-import { HomeIcon, ExternalLinkIcon, RssIcon, MenuIcon } from '@heroicons/react/outline'
+import {
+  HomeIcon,
+  ArrowTopRightOnSquareIcon,
+  RssIcon,
+  Bars3Icon,
+} from '@heroicons/react/24/outline'
 
 const Navbar = () => {
   return (
     <div className="navbar">
       <div className="flex-1">
-        <Link href="/">
-          <div className="btn btn-ghost btn-sm rounded">
-            <HomeIcon className="mr-4 w-5 h-5" />
-            <span>Home</span>
-          </div>
+        <Link href="/" className="btn btn-ghost btn-sm rounded">
+          <HomeIcon className="mr-4 w-5 h-5" />
+          <span>Home</span>
         </Link>
       </div>
 
@@ -18,7 +21,7 @@ const Navbar = () => {
           <a href="https://mitscherlich.me" target="_blank" rel="noopener noreferrer">
             <div className="btn btn-ghost btn-sm rounded mr-2">
               Profile
-              <ExternalLinkIcon className="ml-2 w-5 h-5" />
+              <ArrowTopRightOnSquareIcon className="ml-2 w-5 h-5" />
             </div>
           </a>
         </div>
@@ -26,7 +29,7 @@ const Navbar = () => {
           <a href="https://github.com/Mitscherlich" target="_blank" rel="noopener noreferrer">
             <div className="btn btn-ghost btn-sm rounded mr-2">
               Github
-              <ExternalLinkIcon className="ml-2 w-5 h-5" />
+              <ArrowTopRightOnSquareIcon className="ml-2 w-5 h-5" />
             </div>
           </a>
         </div>
@@ -41,10 +44,10 @@ const Navbar = () => {
       </div>
 
       <div className="md:hidden dropdown dropdown-end">
-        <div tabIndex={0} className="btn btn-ghost btn-sm">
-          <MenuIcon className="w-5 h-5" />
+        <div tabIndex={0} role="button" className="btn btn-ghost btn-sm">
+          <Bars3Icon className="w-5 h-5" />
         </div>
-        <ul tabIndex={0} className="menu dropdown-content bg-base-100 shadow rounded w-32 mt-24">
+        <ul tabIndex={0} className="menu dropdown-content bg-base-100 shadow rounded w-32 mt-24 z-10">
           <li>
             <a
               className="flex items-center"
@@ -53,7 +56,7 @@ const Navbar = () => {
               rel="noopener noreferrer"
             >
               Profile
-              <ExternalLinkIcon className="ml-2 w-5 h-5" />
+              <ArrowTopRightOnSquareIcon className="ml-2 w-5 h-5" />
             </a>
           </li>
           <li>
@@ -64,7 +67,7 @@ const Navbar = () => {
               rel="noopener noreferrer"
             >
               Github
-              <ExternalLinkIcon className="ml-2 w-5 h-5" />
+              <ArrowTopRightOnSquareIcon className="ml-2 w-5 h-5" />
             </a>
           </li>
           <li>

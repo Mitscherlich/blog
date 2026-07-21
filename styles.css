@@ -1,26 +1,73 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&family=Noto+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&family=Noto+Sans+SC:wght@400;700&display=swap');
+@import 'tailwindcss';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* daisyUI 5 renamed garden primary to pink; restore the classic olive-green garden palette. */
+@plugin "daisyui" {
+  themes: false;
+}
+
+@plugin "daisyui/theme" {
+  name: 'garden';
+  default: true;
+  color-scheme: light;
+
+  /* Classic garden (daisyUI v1–v2) */
+  --color-base-100: #e9e7e7;
+  --color-base-200: #dddada;
+  --color-base-300: #cfcbcb;
+  --color-base-content: #100f0f;
+
+  --color-primary: #5c7f67;
+  --color-primary-content: #ffffff;
+
+  --color-secondary: #ecf4e7;
+  --color-secondary-content: #24331a;
+
+  --color-accent: #fae5e5;
+  --color-accent-content: #322020;
+
+  --color-neutral: #5d5656;
+  --color-neutral-content: #e9e7e7;
+
+  --color-info: #3abff8;
+  --color-info-content: #002b3d;
+  --color-success: #36d399;
+  --color-success-content: #003320;
+  --color-warning: #fbbd23;
+  --color-warning-content: #382800;
+  --color-error: #f87272;
+  --color-error-content: #470000;
+
+  --radius-selector: 1rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@theme {
+  --font-sans: Rubik, 'Noto Sans SC', ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
 
 .notion,
 .notion-text,
 .notion-quote,
 .notion-list,
 .notion-h-title {
-  @apply leading-7;
-  @apply font-sans;
+  @apply leading-7 font-sans;
 }
 .notion-code {
   @apply bg-gray-900;
 }
 .notion-bookmark {
-  @apply border-2;
-  @apply border-gray-100;
+  @apply border-2 border-gray-100;
 }
 .notion-bookmark:hover {
-  @apply border-blue-400;
+  @apply border-sky-400;
 }
 .notion-viewport {
   z-index: -10;
